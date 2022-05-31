@@ -11,8 +11,8 @@ use crate::handler::Event;
 #[tokio::main]
 async fn main() {
 
-    let mut googlemap_data_file = std::fs::OpenOptions::new().read(true).write(true).open("rawdata3.txt").expect("cannot open googlemap data file");
-    let mut info_scrap_file = std::fs::OpenOptions::new().read(true).write(true).open("rawdata1.txt").expect("cannot open info scrap file");
+    let mut googlemap_data_file = std::fs::OpenOptions::new().read(true).write(true).open("googlemap_data.txt").expect("cannot open googlemap data file");
+    let mut info_scrap_file = std::fs::OpenOptions::new().read(true).write(true).open("info_scrap.txt").expect("cannot open info scrap file");
     let mut link_file = std::fs::OpenOptions::new().read(true).write(true).open("links.txt").expect("cannot open info scrap file");
 
     let mut name_buffer = String::new();
@@ -26,7 +26,6 @@ async fn main() {
 
 
     let app = Event{
-        page_err: None,
         name_err: false,
         rawdata_err: false,
         links,
@@ -41,7 +40,6 @@ async fn main() {
     native_option.initial_window_size = std::option::Option::Some(Vec2 { x: 1000., y: 800. });
     native_option.resizable = false;
 
-    println!("after select macro");
     run_native(Box::new(app), native_option);
 }
 

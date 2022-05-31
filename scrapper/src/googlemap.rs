@@ -1,7 +1,7 @@
+use std::fs::File;
 use std::{thread::sleep, time::Duration, io::BufWriter};
-use std::io::Write;
+use std::io::{Write, BufReader, BufRead};
 use rand::prelude::SliceRandom;
-use thirtyfour::error::WebDriverError;
 use thirtyfour::{DesiredCapabilities, WebDriver, By, Capabilities};
 
 use crate::facebookcheck::facebook_check;
@@ -15,15 +15,14 @@ pub async fn google_map_scrapper() {
     let driver = WebDriver::new("http://localhost:9515", &caps)
     .await
     .unwrap();
-    let url_collection = vec![
-        "https://www.google.com/maps/search/komputer+shah+alam/@3.0077858,101.5412183,11z/data=!3m1!4b1",
-        "https://www.google.com/maps/search/komputer+subang+jaya/@3.0077926,101.6112646,12z/data=!3m1!4b1"
-    ];
+    let link_file = std::fs::OpenOptions::new().read(true).open("links.txt").expect("cannot open info link file");
+    let links = lines_from_file(link_file);
 
-    for i in url_collection {
+
+    for i in links {
         //sleep(Duration::from_secs(30));
         driver.get(i).await.unwrap();
-        let rawdata_file3 = std::fs::OpenOptions::new().read(true).write(true).append(true).open("rawdata3.txt").expect("cannot open users file");
+        let rawdata_file3 = std::fs::OpenOptions::new().read(true).write(true).append(true).open("googlemap_data.txt").expect("cannot open users file");
 
 
         loop {
@@ -89,7 +88,7 @@ pub async fn google_map_scrapper() {
             sleep(Duration::from_secs(n));
         }
     }
-    
+    driver.quit().await.unwrap();
     facebook_check().await;
 
 }
@@ -115,4 +114,11 @@ async fn filter_name(html: String) -> String {
     let result: String = html.clone().drain(initial + 1 .. ending).collect();
     result
     */
+}
+
+fn lines_from_file(file: File) -> Vec<String> {
+    let buf = BufReader::new(file);
+    buf.lines()
+        .map(|l| l.expect("Could not parse line"))
+        .collect()
 }

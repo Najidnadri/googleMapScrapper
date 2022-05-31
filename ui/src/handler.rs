@@ -1,17 +1,11 @@
 use std::fs::write;
 use std::fs::File;
+use std::io::Read;
 
 use eframe::epi::App;
 use egui::Color32;
 use reqwest;
 use tokio::task;
-
-#[derive(PartialEq, Eq, PartialOrd, Ord)]
-pub enum PageNumErr {
-    MaxErr,
-    MinErr,
-    ValueErr,
-}
 
 
 pub struct Event {
@@ -21,7 +15,6 @@ pub struct Event {
     pub link_file: File,
     pub googlemap_data_file: File,
     pub info_scrap_file: File,
-    pub page_err: Option<PageNumErr>,
     pub name_err: bool,
     pub rawdata_err: bool,
 }
@@ -29,7 +22,7 @@ pub struct Event {
 impl App for Event {
     fn update(&mut self, ctx: &egui::CtxRef, _frame: &mut eframe::epi::Frame<'_>) {
         egui::TopBottomPanel::top("header").default_height(100.).show(ctx, |ui| {
-            ui.add_sized([100.0, 100.0],  egui::Label::new("Property Agent Scrapper").underline());
+            ui.add_sized([100.0, 100.0],  egui::Label::new("Google Map Scrapper").underline());
         });
         egui::CentralPanel::default().show(ctx, |ui| {
             ui.add_space(10.);
@@ -40,6 +33,21 @@ impl App for Event {
                     .await.unwrap();
                 });
 
+            }
+            ui.add_space(10.);
+            let refresh_button = ui.button("REFRESH");
+            if refresh_button.clicked() {
+                let mut name_buffer = String::new();
+                let _readed_name = self.googlemap_data_file.read_to_string(&mut name_buffer).unwrap();
+                self.googlemap_data.push_str(&name_buffer);
+            
+                let mut info_scrap = String::new();
+                let _readed_name = self.info_scrap_file.read_to_string(&mut info_scrap).unwrap();
+                self.info_scrap.push_str(&info_scrap);
+            
+                let mut links = String::new();
+                let _readed_name = self.link_file.read_to_string(&mut links).unwrap();
+                self.links.push_str(&links);
             }
             /* 
             ui.add_space(5.);

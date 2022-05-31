@@ -16,8 +16,8 @@ pub async fn facebook_check() {
     //sleep(Duration::from_secs(30));
     driver.get("https://www.google.com/search?q=chill+n+santai&oq=Chill+n+Santai&aqs=chrome.0.0i355i512j46i175i199i512j0i22i30j0i390l4.230j0j7&sourceid=chrome&ie=UTF-8").await.unwrap();
     
-    let mut rawdata_file1 = std::fs::OpenOptions::new().read(true).write(true).append(true).open("rawdata1.txt").expect("cannot open users file");
-    let mut rawdata_file = std::fs::OpenOptions::new().read(true).write(true).append(true).open("rawdata3.txt").expect("cannot open users file");
+    let rawdata_file1 = std::fs::OpenOptions::new().read(true).write(true).append(true).open("info_scrap.txt").expect("cannot open users file");
+    let mut rawdata_file = std::fs::OpenOptions::new().read(true).write(true).append(true).open("googlemap_data.txt").expect("cannot open users file");
     let mut buffer = String::new();
     let _readed = rawdata_file.read_to_string(&mut buffer).unwrap();
     //println!("{}", buffer);

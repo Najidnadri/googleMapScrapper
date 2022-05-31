@@ -3,9 +3,7 @@ mod facebookcheck;
 mod googlemap;
 
 use actix_web::{self, HttpServer, App, Responder, get, HttpResponse};
-use facebookcheck::facebook_check;
 use googlemap::google_map_scrapper;
-use crate::yellowpagescrapper::scrap_yellowpage;
 
 
 
@@ -14,12 +12,12 @@ async fn main() {
     //start server
     //scrap_yellowpage().await;
     //let _a = facebook_check().await;
-    let _b = google_map_scrapper().await;
-    /* 
+    //let _b = google_map_scrapper().await;
+    
     println!("actix web go!");
     HttpServer::new(|| {
         App::new()
-        .service(run_lppeh)
+        .service(run_googlemap)
         .service(stop)
     })
     .bind(("127.0.0.1", 8080))
@@ -28,7 +26,7 @@ async fn main() {
     .run()
     .await
     .unwrap();
-    */
+    
 
     
   
@@ -47,11 +45,13 @@ async fn run_lppeh() -> impl Responder {
 }
 */
 
+/* 
 #[get("runyellowpage")]
 async fn run_yellowpage() -> impl Responder {
     scrap_yellowpage().await;
     HttpResponse::Ok()
 }
+*/
 
 #[get("/stop")]
 async fn stop() -> impl Responder {
