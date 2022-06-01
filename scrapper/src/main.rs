@@ -27,31 +27,11 @@ async fn main() {
     .await
     .unwrap();
     
+    
 
     
   
 }
-/* 
-#[get("/runlppeh")]
-async fn run_lppeh() -> impl Responder {
-    let result = scrap_lppeh().await;
-    
-    if result == true {
-        return HttpResponse::Ok()
-    } else {
-        return HttpResponse::Ok()
-    }
-    
-}
-*/
-
-/* 
-#[get("runyellowpage")]
-async fn run_yellowpage() -> impl Responder {
-    scrap_yellowpage().await;
-    HttpResponse::Ok()
-}
-*/
 
 #[get("/stop")]
 async fn stop() -> impl Responder {

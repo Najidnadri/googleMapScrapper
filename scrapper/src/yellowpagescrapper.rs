@@ -1,13 +1,12 @@
 use std::{thread::sleep, time::Duration, io::BufWriter};
 
 use rand::prelude::SliceRandom;
-use thirtyfour::{WebDriver, DesiredCapabilities, By, Capabilities, Proxy};
-use serde_json;
+use thirtyfour::{WebDriver, DesiredCapabilities, By};
 use std::io::Write;
 
-const BASE_URL: &str = "https://www.yellowpages.my/services/l/food-dining/restaurants?where=Kuala%20Lumpur";
+//const BASE_URL: &str = "https://www.yellowpages.my/services/l/food-dining/restaurants?where=Kuala%20Lumpur";
 
-pub async fn scrap_yellowpage() {
+pub async fn _scrap_yellowpage() {
         //START THE WEBDRIVER
         let mut caps = DesiredCapabilities::chrome();
         caps.add_chrome_arg("start-maximized").unwrap();
@@ -50,7 +49,7 @@ pub async fn scrap_yellowpage() {
         driver.get("yellowpage").await.unwrap();
 
         let search_element = driver.find_element(By::Id("search")).await.unwrap();
-        let g_element = search_element.find_elements(By::ClassName("g")).await.unwrap();
+        let _g_element = search_element.find_elements(By::ClassName("g")).await.unwrap();
 
         sleep(Duration::from_secs(6));
 

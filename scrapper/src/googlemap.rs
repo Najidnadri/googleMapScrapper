@@ -17,15 +17,28 @@ pub async fn google_map_scrapper() {
     .unwrap();
     let link_file = std::fs::OpenOptions::new().read(true).open("links.txt").expect("cannot open info link file");
     let links = lines_from_file(link_file);
+    let googlemap_data = std::fs::OpenOptions::new().read(true).write(true).append(true).open("googlemap_data.txt").expect("cannot open users file");
+    let mut buffer: Vec<String> = Vec::new();
 
-
-    for i in links {
-        //sleep(Duration::from_secs(30));
-        driver.get(i).await.unwrap();
-        let rawdata_file3 = std::fs::OpenOptions::new().read(true).write(true).append(true).open("googlemap_data.txt").expect("cannot open users file");
+    for link in links {
+        driver.get(link).await.unwrap();
 
 
         loop {
+            //check buffer
+            if buffer.len() > 100 {
+                //write
+                let mut buffer_index = 0;
+                let mut writer = BufWriter::new(&googlemap_data);
+                while buffer_index < buffer.len() {
+                    let data = buffer[buffer_index].clone();
+                    writeln!(writer, "{}", data).expect("cannot write to rawdata.txt");
+                    writer.flush().unwrap();
+                    println!("done: {}", data);
+                    buffer_index += 1;
+                }
+                buffer.clear();
+            }
 
             //scrapping
             let card_elements_result = driver.find_elements(By::Tag("a")).await;
@@ -57,10 +70,8 @@ pub async fn google_map_scrapper() {
                         println!("{}", html);
                         let name = filter_name(html).await;
                         println!("{}", name);
-                        //write
-                        let mut writer = BufWriter::new(&rawdata_file3);
-                        writeln!(writer, "{}", name).expect("cannot write to rawdata.txt");
-                        println!("done: {}", name);
+                        //push to buffer
+                        buffer.push(name);
                     }
                 }
             }
@@ -88,6 +99,20 @@ pub async fn google_map_scrapper() {
             sleep(Duration::from_secs(n));
         }
     }
+
+    //write
+    let mut buffer_index = 0;
+    let mut writer = BufWriter::new(&googlemap_data);
+    while buffer_index < buffer.len() {
+        let data = buffer[buffer_index].clone();
+        writeln!(writer, "{}", data).expect("cannot write to rawdata.txt");
+        writer.flush().unwrap();
+        println!("done: {}", data);
+        buffer_index += 1;
+    }
+    buffer.clear();
+    
+
     driver.quit().await.unwrap();
     facebook_check().await;
 
