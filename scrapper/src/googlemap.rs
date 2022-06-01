@@ -53,14 +53,23 @@ pub async fn google_map_scrapper() {
             }
 
             let mut card_elements = card_elements_result.unwrap();
+            let mut card_index = 3;
             //scroll max down
-            for _i in 1 ..= 5 {
-                let numbers = card_elements.len();
-                let last_card = &card_elements[numbers - 1];
-                last_card.scroll_into_view().await.unwrap();
-                //sleep(Duration::from_secs(2));
+            for _i in 1 ..= 100 {
+                let card_elements_len = card_elements.len();
+                if card_index >= card_elements_len {
+                    break;
+                }
+                let selected_card = &card_elements[card_index];
+                selected_card.scroll_into_view().await.unwrap();
+                
                 let latest_cards = driver.find_elements(By::Tag("a")).await.unwrap();
                 card_elements = latest_cards;
+                card_index += 1;
+                sleep(Duration::from_millis(100));
+            }
+            for i in card_elements.clone() {
+                println!("{}", i.outer_html().await.unwrap());
             }
             sleep(Duration::from_secs(1));
             for i in card_elements.clone() {

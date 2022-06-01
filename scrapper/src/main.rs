@@ -13,7 +13,7 @@ async fn main() {
     //scrap_yellowpage().await;
     //let _a = facebook_check().await;
     //let _b = google_map_scrapper().await;
-    
+     
     println!("actix web go!");
     HttpServer::new(|| {
         App::new()
@@ -26,11 +26,6 @@ async fn main() {
     .run()
     .await
     .unwrap();
-    
-    
-
-    
-  
 }
 
 #[get("/stop")]
