@@ -26,15 +26,16 @@ Unfortunately, the scrolling process when scraping need to be manual for now.
 - check if facebook exist
 
 
-## Roadmap
+## Issues
 
-- Add more infos to be collected
-- collects fb link (if exist)
-- collects address
-- collects website link
-- collects top reviews
-- add settings on what to be collected in the UI 
-- increase the scraping speed
+- [x] Scrolling problem
+- [ ] Add more infos to be collected
+- [ ] collects fb link (if exist)
+- [ ] collects address
+- [ ] collects website link
+- [ ] collects top reviews
+- [ ] add settings on what to be collected in the UI 
+- [ ] increase the scraping speed
 
 
 ## Usage
