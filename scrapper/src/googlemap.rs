@@ -15,9 +15,9 @@ pub async fn google_map_scrapper() {
     let driver = WebDriver::new("http://localhost:9515", &caps)
     .await
     .unwrap();
-    let link_file = std::fs::OpenOptions::new().read(true).open("links.txt").expect("cannot open info link file");
+    let link_file = std::fs::OpenOptions::new().read(true).open("links.txt").expect("cannot open link file");
     let links = lines_from_file(link_file);
-    let googlemap_data = std::fs::OpenOptions::new().read(true).write(true).append(true).open("googlemap_data.txt").expect("cannot open users file");
+    let googlemap_data = std::fs::OpenOptions::new().read(true).write(true).append(true).open("googlemap_data.txt").expect("cannot open googlemap_data file");
     let mut buffer: Vec<String> = Vec::new();
 
     for link in links {
@@ -32,7 +32,7 @@ pub async fn google_map_scrapper() {
                 let mut writer = BufWriter::new(&googlemap_data);
                 while buffer_index < buffer.len() {
                     let data = buffer[buffer_index].clone();
-                    writeln!(writer, "{}", data).expect("cannot write to rawdata.txt");
+                    writeln!(writer, "{}", data).expect("cannot write to googlemap_data.txt");
                     writer.flush().unwrap();
                     println!("done: {}", data);
                     buffer_index += 1;
@@ -114,7 +114,7 @@ pub async fn google_map_scrapper() {
     let mut writer = BufWriter::new(&googlemap_data);
     while buffer_index < buffer.len() {
         let data = buffer[buffer_index].clone();
-        writeln!(writer, "{}", data).expect("cannot write to rawdata.txt");
+        writeln!(writer, "{}", data).expect("cannot write to googlemap_data.txt");
         writer.flush().unwrap();
         println!("done: {}", data);
         buffer_index += 1;

@@ -1,2 +1,7 @@
 #hide the target folder
 target/
+
+#hide the txt file
+googlemap_data.txt
+links.txt
+info_scrap.txt

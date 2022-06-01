@@ -16,10 +16,10 @@ pub async fn facebook_check() {
     //sleep(Duration::from_secs(30));
     driver.get("https://www.google.com/search?q=chill+n+santai&oq=Chill+n+Santai&aqs=chrome.0.0i355i512j46i175i199i512j0i22i30j0i390l4.230j0j7&sourceid=chrome&ie=UTF-8").await.unwrap();
     
-    let rawdata_file1 = std::fs::OpenOptions::new().read(true).write(true).append(true).open("info_scrap.txt").expect("cannot open users file");
-    let mut rawdata_file = std::fs::OpenOptions::new().read(true).write(true).append(true).open("googlemap_data.txt").expect("cannot open users file");
+    let info_scrap = std::fs::OpenOptions::new().create(true).read(true).write(true).append(true).open("info_scrap.txt").expect("cannot open info_scrap file");
+    let mut googlemap_data = std::fs::OpenOptions::new().create(true).read(true).write(true).append(true).open("googlemap_data.txt").expect("cannot open googlemap_data file");
     let mut buffer = String::new();
-    let _readed = rawdata_file.read_to_string(&mut buffer).unwrap();
+    let _readed = googlemap_data.read_to_string(&mut buffer).unwrap();
     //println!("{}", buffer);
     let vector: Vec<&str> = buffer.split("\n").collect();
 
@@ -89,8 +89,8 @@ pub async fn facebook_check() {
         //write
         let companyname = companyname.trim();
         let string = format!("{}={}={}={}", companyname, phone_number, facebook_exist, check_rightcard_error);
-        let mut writer = BufWriter::new(&rawdata_file1);
-        writeln!(writer, "{}", string).expect("cannot write to rawdata.txt");
+        let mut writer = BufWriter::new(&info_scrap);
+        writeln!(writer, "{}", string).expect("cannot write to info_scrap.txt");
         println!("done: {}", string);
 
 

@@ -11,9 +11,9 @@ use crate::handler::Event;
 #[tokio::main]
 async fn main() {
 
-    let mut googlemap_data_file = std::fs::OpenOptions::new().read(true).write(true).open("googlemap_data.txt").expect("cannot open googlemap data file");
-    let mut info_scrap_file = std::fs::OpenOptions::new().read(true).write(true).open("info_scrap.txt").expect("cannot open info scrap file");
-    let mut link_file = std::fs::OpenOptions::new().read(true).write(true).open("links.txt").expect("cannot open info scrap file");
+    let mut googlemap_data_file = std::fs::OpenOptions::new().create(true).read(true).write(true).open("./googlemap_data.txt").expect("cannot open googlemap data file");
+    let mut info_scrap_file = std::fs::OpenOptions::new().create(true).read(true).write(true).open("./info_scrap.txt").expect("cannot open info scrap file");
+    let mut link_file = std::fs::OpenOptions::new().create(true).read(true).write(true).open("./links.txt").expect("cannot open links file");
 
     let mut name_buffer = String::new();
     let _readed_name = googlemap_data_file.read_to_string(&mut name_buffer).unwrap();

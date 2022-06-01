@@ -28,6 +28,9 @@ impl App for Event {
             ui.add_space(10.);
             let run_button = ui.button("RUN");
             if run_button.clicked() {
+                write("links.txt", &self.links).unwrap();
+                write("googlemap_data.txt", &self.googlemap_data).unwrap();
+                write("info_scrap.txt",&self.info_scrap).unwrap();
                 task::spawn(async move {
                     let _resp = reqwest::get("http://127.0.0.1:8080/googlemap")
                     .await.unwrap();
@@ -48,6 +51,13 @@ impl App for Event {
                 let mut links = String::new();
                 let _readed_name = self.link_file.read_to_string(&mut links).unwrap();
                 self.links.push_str(&links);
+            }
+
+            let editall_button = ui.button("EDIT ALL");
+            if editall_button.clicked() {
+                write("links.txt", &self.links).unwrap();
+                write("googlemap_data.txt", &self.googlemap_data).unwrap();
+                write("info_scrap.txt",&self.info_scrap).unwrap();
             }
             /* 
             ui.add_space(5.);
@@ -150,7 +160,7 @@ impl App for Event {
                 ui.add_sized([900., 10.],  egui::TextEdit::multiline(&mut self.googlemap_data).desired_rows(20));
                 let rawdata_button = ui.button("Edit links Only");
                 if rawdata_button.clicked() {
-                    write("rawdata3.txt", &self.googlemap_data).unwrap();
+                    write("googlemap_data.txt", &self.googlemap_data).unwrap();
                 }
 
                 ui.add_space(20.);
@@ -164,7 +174,7 @@ impl App for Event {
                 ui.add_sized([900., 10.],  egui::TextEdit::multiline(&mut self.info_scrap).desired_rows(20));
                 let rawdata_button = ui.button("Edit info scrap Only");
                 if rawdata_button.clicked() {
-                    write("rawdata1.txt",&self.info_scrap).unwrap();
+                    write("info_scrap.txt",&self.info_scrap).unwrap();
                 }
             });
         });
