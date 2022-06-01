@@ -13,9 +13,6 @@ I am freely open for any contributions to make the codes cleaner.
 
 Add on, I am also open for any suggestions on how to make this scraping a lot more faster.
 
-One major bugs that need to be solved is scrolling problem when scraping the google maps itself.
-Unfortunately, the scrolling process when scraping need to be manual for now.
-
 
 
 ## Features
